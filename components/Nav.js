@@ -11,12 +11,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Nav({ navigation }) {
-  const {
-    topMenuOne = [],
-    topMenuTwo = [],
-    title = "",
-    cartDirection,
-  } = navigation;
+  const { topMenuOne, topMenuTwo, title, cartDirection } = navigation;
   const [scrollPos, setScrollPos] = useState(0);
   const { isOpen, onToggle } = useDisclosure();
   const getScrollPos = () => {

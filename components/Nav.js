@@ -90,7 +90,7 @@ export default function Nav({ navigation }) {
 
 function CartMenu({ isOpen, onToggle, cartDirection = "right" }) {
   return (
-    <Slide direction={cartDirection} in={isOpen}>
+    <Slide direction={cartDirection} in={isOpen} style={{ zIndex: 20 }}>
       <Box
         display="flex"
         flexDirection="column"
@@ -100,7 +100,6 @@ function CartMenu({ isOpen, onToggle, cartDirection = "right" }) {
         h="100vh"
         right="0"
         bg="white"
-        zIndex={20}
         p={4}
       >
         <Box display="flex" alignItems="center" w="100%">

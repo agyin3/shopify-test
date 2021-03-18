@@ -83,7 +83,8 @@ function ProductInfo({ product }) {
       try {
         checkoutId = await client.checkout.create();
         checkoutId = JSON.parse(JSON.stringify(checkoutId));
-        storage.setItem("checkoutId", checkoutId.id);
+        checkoutId = checkoutId.id;
+        storage.setItem("checkoutId", checkoutId);
       } catch (e) {
         console.log("fail", e);
       }

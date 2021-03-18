@@ -4,8 +4,7 @@ import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 
-function MyApp({ Component, pageProps, ...rest }) {
-  console.log({ ...rest });
+function MyApp({ Component, pageProps }) {
   const { navigation, footerNavigation, hero } = pageProps;
   return (
     <ChakraProvider>

@@ -4,7 +4,6 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import Link from "next/link";
 
 export default function Footer({ navigation }) {
-  console.log(navigation && Object.values(navigation));
   return (
     <Box as="footer" w="full" bg="black" color="white" px={4} py={10}>
       <Flex justify="space-evenly">

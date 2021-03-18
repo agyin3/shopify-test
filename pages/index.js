@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
 import Reviews from "../components/Reviews";
 import BestSellers from "../components/BestSellers";
 
-export default function Home({ products, reviews, hero }) {
+export default function Home({ products, reviews }) {
   return (
     <div>
       <Head>
@@ -14,11 +14,6 @@ export default function Home({ products, reviews, hero }) {
       </Head>
       <Reviews reviews={reviews} />
       <BestSellers products={products} />
-      {products.map((product) => (
-        <Link href={`/product/${product.id}`}>
-          <p>{product.title}</p>
-        </Link>
-      ))}
     </div>
   );
 }

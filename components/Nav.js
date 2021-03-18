@@ -9,10 +9,12 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getCartItems } from "../utils/getCartItems";
 
 export default function Nav({ navigation }) {
   const { topMenuOne, topMenuTwo, title, cartDirection } = navigation;
   const [scrollPos, setScrollPos] = useState(0);
+  const [cartItems, setCartItems] = useState(0);
   const { isOpen, onToggle } = useDisclosure();
   const getScrollPos = () => {
     setScrollPos(window.pageYOffset);
@@ -20,6 +22,14 @@ export default function Nav({ navigation }) {
   useEffect(() => {
     window.addEventListener("scroll", getScrollPos);
     return () => window.removeEventListener("scroll", getScrollPos);
+  }, []);
+
+  useEffect(() => {
+    const fetchNumItems = async () => {
+      let items = await getCartItems();
+      setCartItems(items);
+    };
+    fetchNumItems();
   }, []);
   return (
     <>
@@ -66,7 +76,7 @@ export default function Nav({ navigation }) {
               topMenuTwo?.map((link) =>
                 link.text.toLowerCase() === "cart" ? (
                   <Box as="p" marginX={5} cursor="pointer" onClick={onToggle}>
-                    {link.text}
+                    {`${link.text}(${cartItems})`}
                   </Box>
                 ) : (
                   <Link href="#">

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Hero({ hero }) {
   const { src, title, subtitle, buttonText, align } = hero;
-  console.log(!buttonText);
+
   return (
     <Flex
       h="75vh"

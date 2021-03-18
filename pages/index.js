@@ -1,65 +1,92 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Link from "next/link";
+import { client } from "../utils/shopify"; // import shopfy client
+import Hero from "../components/Hero";
+import Reviews from "../components/Reviews";
+import BestSellers from "../components/BestSellers";
 
-export default function Home() {
+export default function Home({ products, reviews, hero }) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>24Seven Coffee</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      <Reviews reviews={reviews} />
+      <BestSellers products={products} />
+      {products.map((product) => (
+        <Link href={`/product/${product.id}`}>
+          <p>{product.title}</p>
+        </Link>
+      ))}
     </div>
-  )
+  );
+}
+
+export async function getServerSideProps() {
+  let products = await client.product.fetchAll();
+  products = JSON.parse(JSON.stringify(products));
+
+  const reviews = [
+    {
+      text:
+        "Society has put up so many boundaries, so many limitations on what’s right and wrong that it’s almost impossible to get a pure thought out.",
+      img: "./company-logos/designmilk_400x.jpg",
+    },
+    {
+      text:
+        "I always felt like I could do anything. That’s the main thing people are controlled by!",
+      img: "./company-logos/gq_400x.jpg",
+    },
+    {
+      text:
+        "The time is now for it to be okay to be great. People in this world shun people for being great.",
+      img: "./company-logos/wired_400x.jpg",
+    },
+  ];
+
+  return {
+    props: {
+      products,
+      reviews,
+      navigation: {
+        title: "24Seven Coffee",
+        topMenuOne: [{ text: "Shop" }, { text: "Explore" }, { text: "About" }],
+        topMenuTwo: [{ text: "Search" }, { text: "Log In" }, { text: "Cart" }],
+        cartDirection: "right",
+      },
+      footerNavigation: {
+        footerMenuOne: {
+          title: "Shop",
+          links: [
+            { text: "Coffee", href: "#" },
+            { text: "Merch", href: "#" },
+            { text: "Subscriptions", href: "#" },
+          ],
+        },
+        footerMenuTwo: {
+          title: "About",
+          links: [
+            { text: "About Us", href: "#" },
+            { text: "Recipes", href: "#" },
+            { text: "Blogs", href: "#" },
+          ],
+        },
+        footerMenuThree: {
+          title: "Help",
+          links: [
+            { text: "Privacy Policy", href: "#" },
+            { text: "Return Policy", href: "#" },
+            { text: "Support & FAQ", href: "#" },
+          ],
+        },
+      },
+      hero: {
+        src: "./24seven_homepage_hero.jpg",
+        title: "ALL STYLE, ALL SUBSTANCE",
+        subtitle: "ODE DOES THINGS DIFFERENTLY",
+        buttonText: "Shop Now",
+      },
+    },
+  };
 }
